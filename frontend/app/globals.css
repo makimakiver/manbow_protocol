@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f3ee;
+  --foreground: #333;
+  --accent: #4a6fa5;
+  --muted: #999;
+  --divider: rgba(0, 0, 0, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -webkit-backface-visibility: hidden;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f5f3ee;
+  color: #333;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  width: 100vw;
+  overflow-x: hidden;
+  word-spacing: 1px;
+}
+
+::selection {
+  background-color: #333;
+  color: #f5f3ee;
+}
+
+/* Accent text — single refined color, no gradient */
+.accent-text {
+  color: #4a6fa5;
+}
+
+/* Subtle divider */
+.divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Chain name fade swap */
+@keyframes fadeSwap {
+  0% { opacity: 0; transform: translateY(8px); filter: blur(4px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Dot ping */
+@keyframes dotPing {
+  0% { transform: scale(1); opacity: 1; }
+  75%, 100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Scrollbar — cream theme */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #f5f3ee; }
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 2px; }
+
+html { scroll-behavior: smooth; }
+
+/* Rotating geometric shape */
+.rotating-shape-container {
+  --scroll-t: 0;
+  position: fixed;
+  z-index: 1;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: top 0.1s ease-out, left 0.1s ease-out, transform 0.1s ease-out;
+}
+
+.rotating-shape-left {
+  top: calc(50vh - 32vh * var(--scroll-t));
+  left: calc(50vw - 35vw * var(--scroll-t));
+  transform: translate(-50%, -50%) scale(calc(1 - 0.6 * var(--scroll-t)));
+}
+
+.rotating-shape-right {
+  top: calc(50vh - 32vh * var(--scroll-t));
+  left: calc(50vw + 35vw * var(--scroll-t));
+  transform: translate(-50%, -50%) scale(calc(1 - 0.6 * var(--scroll-t)));
+}
+
+/* Global transition — inspired by onelinebook */
+a, button, span, div, p, h1, h2, h3, h4, h5, h6, nav, section, footer {
+  transition: .3s cubic-bezier(.4, .4, 0, 1);
+}
