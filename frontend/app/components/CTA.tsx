@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import HoverText from "./HoverText";
 
 export default function CTA() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,6 +48,10 @@ export default function CTA() {
             <a
               href="#"
               className="px-8 py-3 text-sm text-[#f5f3ee] bg-[#333] hover:bg-[#1a1a1a]"
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/main");
+              }}
             >
               Launch App
             </a>

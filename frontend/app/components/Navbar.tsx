@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
@@ -11,6 +12,8 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const router = useRouter();
 
   return (
     <nav
@@ -41,7 +44,12 @@ export default function Navbar() {
           <a
             href="#start"
             className="text-xs text-[#333] border-b border-[#333] pb-0.5 hover:text-[#4a6fa5] hover:border-[#4a6fa5]"
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/main");
+            }}
           >
+
             Launch App
           </a>
         </div>
@@ -68,7 +76,10 @@ export default function Navbar() {
           <a
             href="#start"
             className="text-sm text-[#333] border-b border-[#333] self-start pb-0.5"
-            onClick={() => setMobileOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/dashboard");
+            }}
           >
             Launch App
           </a>

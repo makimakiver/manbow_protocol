@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import HoverText from "./HoverText";
+import { useRouter } from "next/navigation"
 
 const CHAINS = ["HyperEVM", "SuiMVM", "Ethereum", "Arbitrum"];
 const LEND_CHAINS = ["HEVM", "ETH", "ARB", "SUI"];
@@ -13,7 +14,7 @@ export default function Hero() {
   const [mounted, setMounted] = useState(false);
   const [flowVisible, setFlowVisible] = useState(false);
   const flowRef = useRef<HTMLDivElement>(null);
-
+  const router = useRouter();
   useEffect(() => {
     setMounted(true);
     const interval = setInterval(() => {
@@ -52,7 +53,7 @@ export default function Hero() {
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         {/* Logo */}
         <h2
-          className="text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-[#1a1a1a] mb-6"
+          className="font-logo text-6xl sm:text-8xl md:text-9xl font-normal tracking-tight text-[#1a1a1a] mb-6"
           style={stagger(0)}
         >
           Manbow
@@ -77,12 +78,6 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* Divider */}
-        <div
-          className="divider w-12 mx-auto mb-8"
-          style={stagger(0.35)}
-        />
-
         {/* CTAs */}
         <div
           className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20"
@@ -91,8 +86,12 @@ export default function Hero() {
           <a
             href="#start"
             className="px-8 py-3 text-sm text-[#f5f3ee] bg-[#333] rounded-none hover:bg-[#1a1a1a]"
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/main");
+            }}
           >
-            Start Lending
+            Launch App
           </a>
           <a
             href="#howitworks"
