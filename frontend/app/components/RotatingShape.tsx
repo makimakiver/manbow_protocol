@@ -76,6 +76,7 @@ export default function RotatingShape() {
     }
 
     function drawCircle(x: number, y: number, r: number, color: string) {
+      if (!ctx) return;
       ctx.strokeStyle = color;
       ctx.lineWidth = lineWidth;
       ctx.beginPath();
@@ -84,6 +85,7 @@ export default function RotatingShape() {
     }
 
     function drawLine(x1: number, y1: number, x2: number, y2: number, color: string) {
+      if (!ctx) return;
       ctx.strokeStyle = color;
       ctx.lineWidth = lineWidth;
       ctx.beginPath();
@@ -93,6 +95,7 @@ export default function RotatingShape() {
     }
 
     function drawGradientLine(x1: number, y1: number, x2: number, y2: number, color1: string, color2: string) {
+      if (!ctx) return;
       const grad = ctx.createLinearGradient(x1, y1, x2, y2);
       grad.addColorStop(0, color1);
       grad.addColorStop(1, color2);
@@ -121,6 +124,7 @@ export default function RotatingShape() {
 
     // Get responsive dimensions
     function getDimensions() {
+      if (!canvas) return { cx: 0, cy: 0, centerRadius: 0, orbitRadius: 0, spokeLength: 0, nodeRadius: 0 };
       const size = canvas.width / dpr;
       const cx = size / 2;
       const cy = size / 2;
@@ -222,20 +226,22 @@ export default function RotatingShape() {
         const colorT = Math.min(distFromCenter / maxDist, 1);
 
         // Glow
-        ctx.globalAlpha = opacity * 0.25;
-        ctx.fillStyle = getParticleGlowColor(colorT);
-        ctx.beginPath();
-        ctx.arc(x, y, particleRadius * 2.5, 0, Math.PI * 2);
-        ctx.fill();
+        if (ctx) {
+          ctx.globalAlpha = opacity * 0.25;
+          ctx.fillStyle = getParticleGlowColor(colorT);
+          ctx.beginPath();
+          ctx.arc(x, y, particleRadius * 2.5, 0, Math.PI * 2);
+          ctx.fill();
 
-        // Core
-        ctx.globalAlpha = opacity * 0.9;
-        ctx.fillStyle = getParticleColor(colorT);
-        ctx.beginPath();
-        ctx.arc(x, y, particleRadius, 0, Math.PI * 2);
-        ctx.fill();
+          // Core
+          ctx.globalAlpha = opacity * 0.9;
+          ctx.fillStyle = getParticleColor(colorT);
+          ctx.beginPath();
+          ctx.arc(x, y, particleRadius, 0, Math.PI * 2);
+          ctx.fill();
 
-        ctx.globalAlpha = 1;
+          ctx.globalAlpha = 1;
+        }
       }
 
       return allDone && particlesSpawned;
@@ -416,10 +422,12 @@ export function RotatingShapeRight() {
       return (i * 2 * Math.PI) / spokeCount + offset;
     }
     function drawCircle(x: number, y: number, r: number, color: string) {
+      if (!ctx) return;
       ctx.strokeStyle = color; ctx.lineWidth = lineWidth;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
     }
     function drawGradientLine(x1: number, y1: number, x2: number, y2: number, c1: string, c2: string) {
+      if (!ctx) return;
       const grad = ctx.createLinearGradient(x1, y1, x2, y2);
       grad.addColorStop(0, c1); grad.addColorStop(1, c2);
       ctx.strokeStyle = grad; ctx.lineWidth = lineWidth;
@@ -432,6 +440,7 @@ export function RotatingShapeRight() {
       return `rgba(${Math.round(80 + 140 * t)}, ${Math.round(120 - 50 * t)}, ${Math.round(220 - 70 * t)}, 0.3)`;
     }
     function getDimensions() {
+      if (!canvas) return { cx: 0, cy: 0, centerRadius: 0, orbitRadius: 0, spokeLength: 0, nodeRadius: 0 };
       const size = canvas.width / dpr;
       const scale = size / 600;
       return { cx: size / 2, cy: size / 2, centerRadius: 24 * scale, orbitRadius: 150 * scale, spokeLength: 260 * scale, nodeRadius: 30 * scale };
@@ -470,11 +479,13 @@ export function RotatingShapeRight() {
         const d = getDimensions();
         const dist = Math.sqrt((x - d.cx) ** 2 + (y - d.cy) ** 2);
         const colorT = Math.min(dist / d.spokeLength, 1);
+        if (ctx) {
         ctx.globalAlpha = opacity * 0.25; ctx.fillStyle = getParticleGlowColor(colorT);
-        ctx.beginPath(); ctx.arc(x, y, particleRadius * 2.5, 0, Math.PI * 2); ctx.fill();
-        ctx.globalAlpha = opacity * 0.9; ctx.fillStyle = getParticleColor(colorT);
-        ctx.beginPath(); ctx.arc(x, y, particleRadius, 0, Math.PI * 2); ctx.fill();
-        ctx.globalAlpha = 1;
+          ctx.beginPath(); ctx.arc(x, y, particleRadius * 2.5, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = opacity * 0.9; ctx.fillStyle = getParticleColor(colorT);
+          ctx.beginPath(); ctx.arc(x, y, particleRadius, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = 1;
+        }
       }
       return allDone && particlesSpawned;
     }
